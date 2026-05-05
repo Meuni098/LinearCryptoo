@@ -112,46 +112,52 @@ LC.PdfExport.generate = async function() {
         const overlayStatus = document.getElementById('pdf-overlay-status');
         if (overlayStatus) overlayStatus.textContent = 'Rendering equations (this may take up to a minute on mobile devices)...';
 
-        const batchImgData = await htmlToImage.toPng(batchContainer, { pixelRatio, skipFonts: true, fontEmbedCSS: '' });
+        try {
+          const batchImgData = await htmlToImage.toPng(batchContainer, { pixelRatio, skipFonts: true, fontEmbedCSS: '' });
 
-        const img = new Image();
-        img.src = batchImgData;
-        await new Promise((resolve) => {
-          img.onload = resolve;
-          img.onerror = resolve; // Safely resolve to prevent indefinite stall
-        });
+          const img = new Image();
+          img.src = batchImgData;
+          await new Promise((resolve) => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
 
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
+          if (img.width > 0 && img.height > 0) {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
 
-        chunk.forEach((item) => {
-          const wrap = item.el;
-          const rect = wrap.getBoundingClientRect();
-          const pRect = batchContainer.getBoundingClientRect();
+            chunk.forEach((item) => {
+              const wrap = item.el;
+              const rect = wrap.getBoundingClientRect();
+              const pRect = batchContainer.getBoundingClientRect();
 
-          const relLeft = rect.left - pRect.left;
-          const relTop = rect.top - pRect.top;
+              const relLeft = rect.left - pRect.left;
+              const relTop = rect.top - pRect.top;
 
-          const sx = Math.floor(relLeft * pixelRatio);
-          const sy = Math.floor(relTop * pixelRatio);
-          const sWidth = Math.ceil(rect.width * pixelRatio);
-          const sHeight = Math.ceil(rect.height * pixelRatio);
+              const sx = Math.floor(relLeft * pixelRatio);
+              const sy = Math.floor(relTop * pixelRatio);
+              const sWidth = Math.ceil(rect.width * pixelRatio);
+              const sHeight = Math.ceil(rect.height * pixelRatio);
 
-          const tempCanvas = document.createElement('canvas');
-          tempCanvas.width = sWidth;
-          tempCanvas.height = sHeight;
-          const tempCtx = tempCanvas.getContext('2d');
-          tempCtx.drawImage(canvas, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+              const tempCanvas = document.createElement('canvas');
+              tempCanvas.width = Math.max(1, sWidth);
+              tempCanvas.height = Math.max(1, sHeight);
+              const tempCtx = tempCanvas.getContext('2d');
+              tempCtx.drawImage(canvas, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
 
-          LC.PdfExport._mathCache[item.key] = {
-            imgData: tempCanvas.toDataURL('image/png'),
-            srcW: sWidth,
-            srcH: sHeight
-          };
-        });
+              LC.PdfExport._mathCache[item.key] = {
+                imgData: tempCanvas.toDataURL('image/png'),
+                srcW: Math.max(1, sWidth),
+                srcH: Math.max(1, sHeight)
+              };
+            });
+          }
+        } catch(batchErr) {
+          console.warn('Batch capture ignored', batchErr);
+        }
 
         document.body.removeChild(batchContainer);
       }
@@ -200,7 +206,10 @@ LC.PdfExport.generate = async function() {
 
   } catch (err) {
     console.error('PDF Export Error:', err);
-    LC.App.showAlert('Error generating PDF: ' + err.message);
+    let msg = 'Unknown Error';
+    if (err && err.message) msg = err.message;
+    else if (typeof err === 'string' || err instanceof String) msg = err;
+    LC.App.showAlert('Error generating PDF: ' + msg);
   } finally {
     try { document.body.removeChild(overlay); } catch(e){}
     LC.PdfExport._isGenerating = false;
@@ -275,21 +284,39 @@ LC.PdfExport._captureMath = async function(latex, displayMode) {
   await new Promise(r => setTimeout(r, 100));
 
   const isMobile = window.innerWidth <= 768;
-  const imgData = await htmlToImage.toPng(container, { pixelRatio: isMobile ? 1.5 : 2.5, skipFonts: true, fontEmbedCSS: '' });
+  try {
+    const imgData = await htmlToImage.toPng(container, { pixelRatio: isMobile ? 1.0 : 2.5, skipFonts: true, fontEmbedCSS: '' });
 
-  // Get EXACT pixel dimensions from the generated image to completely prevent overlapping
-  const img = new Image();
-  img.src = imgData;
-  await new Promise(r => { img.onload = r; img.onerror = () => r(); });
+    const img = new Image();
+    img.src = imgData;
+    await new Promise(r => { img.onload = r; img.onerror = () => r(); });
 
-  const srcW = img.width;
-  const srcH = img.height;
+    if (img.width === 0 || img.height === 0) throw new Error('Blank image generated - iOS security block');
 
-  document.body.removeChild(container);
+    const srcW = img.width;
+    const srcH = img.height;
 
-  const result = { imgData, srcW, srcH };
-  LC.PdfExport._mathCache[key] = result;
-  return result;
+    document.body.removeChild(container);
+
+    const result = { imgData, srcW, srcH };
+    LC.PdfExport._mathCache[key] = result;
+    return result;
+  } catch(fallbackErr) {
+    console.warn("Generating fallback math string instead of canvas image", fallbackErr);
+    document.body.removeChild(container);
+    
+    const fc = document.createElement('canvas');
+    fc.width = 400; fc.height = 36;
+    const fctx = fc.getContext('2d');
+    fctx.fillStyle = '#ffffff'; fctx.fillRect(0,0,400,36);
+    fctx.fillStyle = '#e94560'; fctx.font = '13px monospace';
+    // Fallback directly to text if mobile locks math extraction
+    fctx.fillText(latex.substring(0, 50) + (latex.length>50?'...':''), 5, 22);
+    
+    const result = { imgData: fc.toDataURL('image/png'), srcW: 400, srcH: 36 };
+    LC.PdfExport._mathCache[key] = result;
+    return result;
+  }
 };
 
 // ============================================================
