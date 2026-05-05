@@ -375,7 +375,7 @@ LC.EndToEnd._renderStep3 = function(el) {
   // Ciphertext
   html += `<div class="result-box mt-8" style="background:rgba(0,180,216,0.05);border-color:rgba(0,180,216,0.15)">
     <p class="text-h3" style="color:var(--cyan);margin-bottom:var(--sp-2)">Ciphertext</p>
-    <p class="text-math" style="font-size:20px;color:var(--cyan)">${s.ciphertext}</p>
+    <p class="text-math" style="font-size:20px;color:var(--cyan);word-break:break-all;overflow-wrap:anywhere;line-height:1.5">${s.ciphertext}</p>
   </div>`;
 
   el.innerHTML = html;
@@ -806,7 +806,7 @@ LC.EndToEnd._renderStep6 = function(el) {
   });
 
   html += '</div>';
-  html += `<p class="result-text">${s.recoveredPlaintext || ''}</p>`;
+  html += `<p class="result-text" style="word-break:break-all;overflow-wrap:anywhere;line-height:1.5">${s.recoveredPlaintext || ''}</p>`;
   html += `<p class="mt-4" style="color:var(--cyan)"><span class="material-symbols-outlined" style="vertical-align:middle;font-size:20px">check_circle</span> The plaintext has been successfully recovered!</p>`;
   html += '</div>';
 
