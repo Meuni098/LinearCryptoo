@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LinearCrypt - Matrix Inverse Decryption &amp; Recovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Noto+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#7f9dd0",
+                        "surface-tint": "#a9c8fc",
+                        "outline-variant": "#43474f",
+                        "surface-container-lowest": "#0d0e11",
+                        "inverse-surface": "#e3e2e6",
+                        "primary": "#a9c8fc",
+                        "surface-dim": "#121316",
+                        "surface-variant": "#333538",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-high": "#292a2d",
+                        "secondary-fixed": "#ffdadb",
+                        "on-surface": "#e3e2e6",
+                        "surface-container-low": "#1a1c1f",
+                        "outline": "#8d919a",
+                        "on-error": "#690005",
+                        "tertiary-container": "#003946",
+                        "on-background": "#e3e2e6",
+                        "tertiary-fixed-dim": "#4cd6fb",
+                        "error": "#ffb4ab",
+                        "on-primary": "#09305c",
+                        "on-tertiary": "#003642",
+                        "primary-container": "#0f3460",
+                        "secondary": "#ffb2b7",
+                        "on-surface-variant": "#c3c6d0",
+                        "error-container": "#93000a",
+                        "tertiary": "#4cd6fb",
+                        "surface-container-highest": "#333538",
+                        "on-secondary-fixed": "#40000e",
+                        "surface-bright": "#38393d",
+                        "primary-fixed-dim": "#a9c8fc",
+                        "on-secondary-fixed-variant": "#91002b",
+                        "inverse-primary": "#405f8e",
+                        "surface-container": "#1e2023",
+                        "inverse-on-surface": "#2f3034",
+                        "on-primary-fixed-variant": "#274774",
+                        "on-secondary": "#67001c",
+                        "secondary-fixed-dim": "#ffb2b7",
+                        "on-tertiary-fixed": "#001f27",
+                        "on-tertiary-fixed-variant": "#004e5f",
+                        "secondary-container": "#9e0030",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#b3ebff",
+                        "on-secondary-container": "#ffa7ae",
+                        "surface": "#121316",
+                        "on-primary-fixed": "#001b3c",
+                        "on-tertiary-container": "#00aacc",
+                        "background": "#121316"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "16px",
+                        "base": "4px",
+                        "lg": "40px",
+                        "xs": "8px",
+                        "xl": "64px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Space Grotesk"],
+                        "label": ["JetBrains Mono"],
+                        "math-sm": ["JetBrains Mono"],
+                        "math-lg": ["JetBrains Mono"],
+                        "h2": ["Space Grotesk"],
+                        "display": ["Space Grotesk"],
+                        "body-lg": ["Noto Sans"],
+                        "body-md": ["Noto Sans"]
+                    },
+                    "fontSize": {
+                        "h1": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "label": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "math-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "math-lg": ["18px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glow-cyan {
+            text-shadow: 0 0 20px rgba(76, 214, 251, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background bg-grid-pattern min-h-screen flex flex-col font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="bg-[#1A1A2E]/80 backdrop-blur-xl docked full-width top-0 z-50 border-b border-white/10 flat no shadows flex justify-between items-center w-full px-8 py-4">
+<div class="flex items-center">
+<span class="text-2xl font-bold tracking-tighter text-white border-r border-white/10 pr-6 mr-6">LinearCrypt</span>
+<nav class="hidden md:flex gap-6 font-['Space_Grotesk'] font-medium tracking-tight">
+<a class="text-blue-400 border-b-2 border-blue-400 pb-1" href="#">Dashboard</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-blue-400 transition-all duration-300" href="#">Modules</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-blue-400 transition-all duration-300" href="#">Theory</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-blue-400 transition-all duration-300" href="#">Documentation</a>
+</nav>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-DEFAULT font-label text-label hover:bg-primary-fixed transition-colors scale-95 transition-transform flex items-center gap-2">
+            Start Calculation
+        </button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-gutter py-xl pb-32">
+<!-- Header Section -->
+<div class="mb-lg">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-tertiary-container text-on-tertiary-container font-label text-label mb-xs">
+<span class="material-symbols-outlined text-[16px]">lock_open</span>
+                STEP 6 OF 6
+            </div>
+<h1 class="font-display text-display text-white mb-sm">Matrix Inverse Decryption &amp; Recovery</h1>
+<p class="font-body-lg text-body-lg text-surface-tint max-w-2xl">
+                Applying the inverse key matrix to the ciphertext to recover the original vectorized values, modulo 27.
+            </p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Equation & Process -->
+<div class="md:col-span-8 flex flex-col gap-gutter">
+<!-- Equation Card -->
+<div class="bg-[#1A1A2E] border border-white/5 p-lg rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]">functions</span>
+</div>
+<h2 class="font-h2 text-h2 text-white mb-md relative z-10">Decryption Function</h2>
+<div class="flex items-center justify-center p-md bg-surface-container-lowest border border-white/5 rounded-lg mb-md font-math-lg text-math-lg text-tertiary">
+                        M = K<sup class="text-xs">-1</sup> × C (mod 27)
+                    </div>
+<div class="grid grid-cols-3 gap-sm relative z-10">
+<div class="text-center">
+<div class="font-label text-label text-outline mb-base">K⁻¹ (Key Inverse)</div>
+<div class="bg-surface-container-low p-sm rounded border border-white/5 font-math-sm text-math-sm text-surface-tint flex flex-col items-center">
+<div>[ 8 13  1]</div>
+<div>[ 5 21 16]</div>
+<div>[22  2 11]</div>
+</div>
+</div>
+<div class="text-center flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">close</span>
+</div>
+<div class="text-center">
+<div class="font-label text-label text-outline mb-base">C (Ciphertext)</div>
+<div class="bg-surface-container-low p-sm rounded border border-white/5 font-math-sm text-math-sm text-surface-tint flex flex-col items-center">
+<div>[15]</div>
+<div>[20]</div>
+<div>[ 8]</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Batch Processing -->
+<div class="bg-[#1A1A2E] border border-white/5 p-lg rounded-xl">
+<h2 class="font-h2 text-h2 text-white mb-md">Batch Processing Blocks</h2>
+<div class="space-y-sm">
+<!-- Block 1 -->
+<div class="flex items-center justify-between p-sm bg-surface-container-lowest border border-white/5 rounded">
+<div class="flex items-center gap-sm">
+<span class="bg-tertiary/10 text-tertiary p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<span class="font-label text-label text-surface-tint">Block 1: [8, 5, 12]</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_right_alt</span>
+<span class="font-math-sm text-math-sm text-white">"HEL"</span>
+</div>
+<!-- Block 2 -->
+<div class="flex items-center justify-between p-sm bg-surface-container-lowest border border-white/5 rounded">
+<div class="flex items-center gap-sm">
+<span class="bg-tertiary/10 text-tertiary p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<span class="font-label text-label text-surface-tint">Block 2: [12, 15, 0]</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_right_alt</span>
+<span class="font-math-sm text-math-sm text-white">"LO "</span>
+</div>
+<!-- Block 3 -->
+<div class="flex items-center justify-between p-sm bg-surface-container-lowest border border-white/5 rounded">
+<div class="flex items-center gap-sm">
+<span class="bg-tertiary/10 text-tertiary p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<span class="font-label text-label text-surface-tint">Block 3: [23, 15, 18]</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_right_alt</span>
+<span class="font-math-sm text-math-sm text-white">"WOR"</span>
+</div>
+<!-- Block 4 -->
+<div class="flex items-center justify-between p-sm bg-surface-container-lowest border border-white/5 rounded">
+<div class="flex items-center gap-sm">
+<span class="bg-tertiary/10 text-tertiary p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<span class="font-label text-label text-surface-tint">Block 4: [12, 4, 0]</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_right_alt</span>
+<span class="font-math-sm text-math-sm text-white">"LD "</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Final Result -->
+<div class="md:col-span-4 flex flex-col gap-gutter">
+<!-- Full Recovered Plaintext -->
+<div class="bg-[#16213E] border border-white/10 p-lg rounded-xl flex-grow flex flex-col items-center justify-center text-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-tertiary/5 to-transparent z-0"></div>
+<div class="relative z-10 w-full">
+<div class="inline-flex items-center gap-2 text-tertiary font-label text-label mb-md">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                            Plaintext successfully recovered!
+                        </div>
+<h3 class="font-label text-label text-outline mb-sm uppercase tracking-widest">Full Recovered Plaintext</h3>
+<div class="bg-surface-container-lowest/50 border border-white/10 p-md rounded-lg w-full">
+<span class="font-display text-display text-white glow-cyan tracking-widest">HELLO WORLD</span>
+</div>
+</div>
+<button class="mt-lg w-full border-[1.5px] border-primary text-primary px-6 py-3 rounded-DEFAULT font-label text-label hover:bg-primary/10 transition-colors flex items-center justify-center gap-2 z-10">
+<span class="material-symbols-outlined">download</span>
+                        Export Result
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-[#0D0D1A]/95 backdrop-blur-2xl fixed bottom-0 w-full z-50 border-t border-white/5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] fixed bottom-0 left-0 w-full flex justify-around items-center px-6 py-3 max-w-7xl mx-auto left-0 right-0">
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">format_size</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hidden">Conversion</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">view_column</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hidden">Vectorization</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">enhanced_encryption</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hidden">Encryption</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">settings_backup_restore</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hidden">Inverse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">functions</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hidden">Cramer's</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#FF7F50] bg-[#FF7F50]/10 rounded-lg px-4 py-2 ring-1 ring-[#FF7F50]/30 shadow-[0_0_15px_rgba(255,127,80,0.2)] hover:bg-white/5 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">lock_open</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hidden">Decryption</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="bg-[#0D0D1A] w-full py-12 border-t border-white/5 mt-20 flat flex flex-col md:flex-row justify-between items-center px-12 max-w-7xl mx-auto pb-24 md:pb-12">
+<div class="font-bold text-white mb-6 md:mb-0">
+            LinearCrypt
+            <span class="block font-['Space_Grotesk'] text-xs text-slate-500 font-normal mt-2">© 2024 LinearCrypt Mathematical Observatory. Built for Cryptographic Rigor.</span>
+</div>
+<div class="flex flex-wrap justify-center gap-6 font-['Space_Grotesk'] text-xs text-slate-500">
+<a class="text-slate-600 hover:text-white transition-colors" href="#">Research Labs</a>
+<a class="text-slate-600 hover:text-white transition-colors" href="#">Gauss-Jordan Docs</a>
+<a class="text-slate-600 hover:text-white transition-colors" href="#">Matrix Theory</a>
+<a class="text-slate-600 hover:text-white transition-colors" href="#">Security Audit</a>
+</div>
+</footer>
+</body></html>

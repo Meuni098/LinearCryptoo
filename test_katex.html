@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+</head>
+<body>
+  <div id="wrap" style="padding:12px; font-size:14px; display:inline-block; vertical-align:top; background:transparent; margin:10px; width:max-content; border: 1px solid red;"></div>
+  <script>
+    const wrap = document.getElementById('wrap');
+    katex.render("K = \\begin{bmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{bmatrix}", wrap, { displayMode: true });
+    
+    // Check dimensions after rendering
+    setTimeout(() => {
+      const rect = wrap.getBoundingClientRect();
+      const katexChild = wrap.querySelector('.katex-display');
+      const childRect = katexChild.getBoundingClientRect();
+      
+      console.log('WRAP RECT:', rect.width, rect.height);
+      console.log('CHILD RECT:', childRect.width, childRect.height);
+      console.log('WRAP SCROLL:', wrap.scrollWidth, wrap.scrollHeight);
+      console.log('CHILD MARGINS:', window.getComputedStyle(katexChild).marginTop, window.getComputedStyle(katexChild).marginBottom);
+    }, 100);
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinearCrypt — Interactive Hill Cipher Observatory</title>
+  <meta name="description" content="An interactive laboratory for exploring linear algebra and cryptography — step by step, concept by concept.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700;1,9..144,900&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+  <!-- PDF Export: jsPDF (vector text) + html-to-image (targeted math capture) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="#features">Features</a>
+  <a href="#timeline">Pipeline</a>
+  <a href="#process">How It Works</a>
+  <a href="#modules">Modules</a>
+  <a href="#/end-to-end" class="mobile-cta">Open the Lab →</a>
+</div>
+
+<nav>
+  <a class="nav-logo" href="#/">
+    <svg width="200" height="36" viewBox="0 0 200 36" xmlns="http://www.w3.org/2000/svg">
+      <title>LinearCrypt logo</title>
+      <path d="M10 6 L4 6 L4 30 L10 30" fill="none" stroke="#7f77dd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M26 6 L32 6 L32 30 L26 30" fill="none" stroke="#7f77dd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="11,10 11,24 20,24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M30,10 Q22,10 22,18 Q22,26 30,26" fill="none" stroke="#9d97e8" stroke-width="2.8" stroke-linecap="round"/>
+      <text x="44" y="24" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="700" letter-spacing="0.5" fill="#f0f0f5">Linear</text>
+      <text x="103" y="24" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="700" letter-spacing="0.5" fill="#7f77dd">Crypt</text>
+    </svg>
+
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#timeline">Pipeline</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#modules">Modules</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#/" class="btn-flat">Docs</a>
+    <a href="#/end-to-end" class="btn-cta">Open Lab →</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+  <!-- ===== MAIN APP CONTAINER ===== -->
+
+  <!-- ===== MAIN APP CONTAINER ===== -->
+  <div id="app"></div>
+
+  
+
+  <!-- ===== APP SCRIPTS (non-module for broader compat) ===== -->
+  <script src="js/engine/modularArith.js"></script>
+  <script src="js/engine/alphabet.js"></script>
+  <script src="js/engine/vectorizer.js"></script>
+  <script src="js/engine/encryption.js"></script>
+  <script src="js/engine/gaussJordan.js"></script>
+  <script src="js/engine/cramersRule.js"></script>
+  <script src="js/engine/matrixInverse.js"></script>
+  <script src="js/utils/katexHelper.js"></script>
+  <script src="js/utils/pdfExport.js"></script>
+  <script src="js/ui/landing.js"></script>
+  <script src="js/ui/endToEnd.js"></script>
+  <script src="js/ui/modules.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

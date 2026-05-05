@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LinearCrypt</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Noto+Sans:wght@400;500&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#7f9dd0",
+                      "surface-tint": "#a9c8fc",
+                      "outline-variant": "#43474f",
+                      "surface-container-lowest": "#0d0e11",
+                      "inverse-surface": "#e3e2e6",
+                      "primary": "#a9c8fc",
+                      "surface-dim": "#121316",
+                      "surface-variant": "#333538",
+                      "primary-fixed": "#d5e3ff",
+                      "surface-container-high": "#292a2d",
+                      "secondary-fixed": "#ffdadb",
+                      "on-surface": "#e3e2e6",
+                      "surface-container-low": "#1a1c1f",
+                      "outline": "#8d919a",
+                      "on-error": "#690005",
+                      "tertiary-container": "#003946",
+                      "on-background": "#e3e2e6",
+                      "tertiary-fixed-dim": "#4cd6fb",
+                      "error": "#ffb4ab",
+                      "on-primary": "#09305c",
+                      "on-tertiary": "#003642",
+                      "primary-container": "#0f3460",
+                      "secondary": "#ffb2b7",
+                      "on-surface-variant": "#c3c6d0",
+                      "error-container": "#93000a",
+                      "tertiary": "#4cd6fb",
+                      "surface-container-highest": "#333538",
+                      "on-secondary-fixed": "#40000e",
+                      "surface-bright": "#38393d",
+                      "primary-fixed-dim": "#a9c8fc",
+                      "on-secondary-fixed-variant": "#91002b",
+                      "inverse-primary": "#405f8e",
+                      "surface-container": "#1e2023",
+                      "inverse-on-surface": "#2f3034",
+                      "on-primary-fixed-variant": "#274774",
+                      "on-secondary": "#67001c",
+                      "secondary-fixed-dim": "#ffb2b7",
+                      "on-tertiary-fixed": "#001f27",
+                      "on-tertiary-fixed-variant": "#004e5f",
+                      "secondary-container": "#9e0030",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-fixed": "#b3ebff",
+                      "on-secondary-container": "#ffa7ae",
+                      "surface": "#121316",
+                      "on-primary-fixed": "#001b3c",
+                      "on-tertiary-container": "#00aacc",
+                      "background": "#121316"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "md": "24px",
+                      "sm": "16px",
+                      "base": "4px",
+                      "lg": "40px",
+                      "xs": "8px",
+                      "xl": "64px",
+                      "gutter": "24px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "h1": [
+                              "Space Grotesk"
+                      ],
+                      "label": [
+                              "JetBrains Mono"
+                      ],
+                      "math-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "math-lg": [
+                              "JetBrains Mono"
+                      ],
+                      "h2": [
+                              "Space Grotesk"
+                      ],
+                      "display": [
+                              "Space Grotesk"
+                      ],
+                      "body-lg": [
+                              "Noto Sans"
+                      ],
+                      "body-md": [
+                              "Noto Sans"
+                      ]
+              },
+              "fontSize": {
+                      "h1": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "math-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "math-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "h2": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        /* Matrix Dot Grid overlay */
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        
+        .soft-bloom {
+            box-shadow: 0 0 15px rgba(255, 127, 80, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-background min-h-screen relative overflow-x-hidden">
+<!-- Background grid overlay -->
+<div class="fixed inset-0 pointer-events-none bg-grid-pattern opacity-50 z-0"></div>
+<!-- Header Navigation Shell -->
+<header class="hidden md:flex justify-between items-center w-full px-8 py-4 bg-[#1A1A2E]/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
+<div class="flex items-center">
+<span class="text-2xl font-bold tracking-tighter text-white border-r border-white/10 pr-6 mr-6 font-display">LinearCrypt</span>
+<nav class="flex gap-lg">
+<a class="text-slate-400 hover:text-white transition-colors font-label text-label hover:text-blue-400 transition-all duration-300" href="#">Dashboard</a>
+<a class="text-blue-400 border-b-2 border-blue-400 pb-1 font-label text-label hover:text-blue-400 transition-all duration-300" href="#">Modules</a>
+<a class="text-slate-400 hover:text-white transition-colors font-label text-label hover:text-blue-400 transition-all duration-300" href="#">Theory</a>
+<a class="text-slate-400 hover:text-white transition-colors font-label text-label hover:text-blue-400 transition-all duration-300" href="#">Documentation</a>
+</nav>
+</div>
+<button class="bg-primary text-on-primary font-label text-label px-6 py-2 rounded-DEFAULT border-[1.5px] border-primary hover:bg-transparent hover:text-primary transition-all scale-95 transition-transform">
+            Start Calculation
+        </button>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 w-full max-w-[container-max] mx-auto px-6 py-xl md:py-20 flex flex-col gap-24">
+<!-- Hero Section -->
+<section class="flex flex-col items-center justify-center text-center max-w-4xl mx-auto pt-10">
+<div class="mb-6 bg-surface-container-low border border-white/10 rounded-full px-4 py-1 inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label text-label text-on-surface-variant">V 2.0 LAB ONLINE</span>
+</div>
+<h1 class="font-display text-display text-white mb-6 leading-tight tracking-tight">
+                Unlock the Secrets of the<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary">Hill Cipher</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl">
+                An interactive laboratory for exploring linear algebra and cryptography. Visualize matrix operations, encryption algorithms, and secure communication protocols.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+<button class="bg-secondary text-on-secondary font-label text-label px-8 py-3 rounded-DEFAULT soft-bloom border-[1.5px] border-secondary hover:bg-secondary/90 transition-all">
+                    Full Hill Cipher Flow
+                </button>
+<button class="bg-transparent text-primary font-label text-label px-8 py-3 rounded-DEFAULT border-[1.5px] border-primary hover:bg-primary/10 transition-all">
+                    Explore Modules
+                </button>
+</div>
+</section>
+<!-- Timeline Flow -->
+<section class="w-full max-w-5xl mx-auto my-12 hidden md:block">
+<div class="flex items-center justify-between relative">
+<!-- Connecting Line -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-white/10 border-dashed border-t border-outline-variant -z-10"></div>
+<!-- Nodes -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-[1px] border-white/10 flex items-center justify-center text-primary font-math-lg text-math-lg">①</div>
+<span class="font-label text-label text-on-surface-variant">Format</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-[1px] border-white/10 flex items-center justify-center text-primary font-math-lg text-math-lg">②</div>
+<span class="font-label text-label text-on-surface-variant">Vector</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-low border-[1.5px] border-secondary soft-bloom flex items-center justify-center text-secondary font-math-lg text-math-lg shadow-[0_0_15px_rgba(255,178,183,0.2)]">③</div>
+<span class="font-label text-label text-secondary">Encrypt</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[1px] border-white/10 flex items-center justify-center text-outline-variant font-math-lg text-math-lg">④</div>
+<span class="font-label text-label text-outline-variant">Inverse</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[1px] border-white/10 flex items-center justify-center text-outline-variant font-math-lg text-math-lg">⑤</div>
+<span class="font-label text-label text-outline-variant">Cramer</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[1px] border-white/10 flex items-center justify-center text-outline-variant font-math-lg text-math-lg">⑥</div>
+<span class="font-label text-label text-outline-variant">Decrypt</span>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-low border-[1px] border-white/10 rounded-lg p-6 hover:bg-surface-container transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="font-math-lg text-math-lg text-primary">[A]</span>
+</div>
+<div class="w-12 h-12 mb-4 rounded-DEFAULT bg-surface-container-high border-[1.5px] border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface">format_size</span>
+</div>
+<h3 class="font-h2 text-h2 text-white mb-2">Conversion</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Transform plaintext characters into numerical values based on specific alphabets.</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-low border-[1px] border-white/10 rounded-lg p-6 hover:bg-surface-container transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="font-math-lg text-math-lg text-primary">[V]</span>
+</div>
+<div class="w-12 h-12 mb-4 rounded-DEFAULT bg-surface-container-high border-[1.5px] border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface">view_column</span>
+</div>
+<h3 class="font-h2 text-h2 text-white mb-2">Vectorization</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Organize numerical values into column vectors for matrix multiplication.</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-low border-[1.5px] border-secondary/30 rounded-lg p-6 hover:bg-surface-container transition-colors group relative overflow-hidden shadow-[0_0_20px_rgba(255,178,183,0.05)]">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="font-math-lg text-math-lg text-secondary">[E]</span>
+</div>
+<div class="w-12 h-12 mb-4 rounded-DEFAULT bg-secondary/10 border-[1.5px] border-secondary flex items-center justify-center soft-bloom">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">enhanced_encryption</span>
+</div>
+<h3 class="font-h2 text-h2 text-white mb-2">Encryption</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Apply the Hill Cipher matrix multiplication to obscure the original message vectors.</p>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-low border-[1px] border-white/10 rounded-lg p-6 hover:bg-surface-container transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="font-math-lg text-math-lg text-tertiary">[G]</span>
+</div>
+<div class="w-12 h-12 mb-4 rounded-DEFAULT bg-surface-container-high border-[1.5px] border-outline-variant flex items-center justify-center group-hover:border-tertiary transition-colors">
+<span class="material-symbols-outlined text-on-surface">functions</span>
+</div>
+<h3 class="font-h2 text-h2 text-white mb-2">Gauss-Jordan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Solve linear systems and find matrix inverses using elementary row operations.</p>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-low border-[1px] border-white/10 rounded-lg p-6 hover:bg-surface-container transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="font-math-lg text-math-lg text-tertiary">[C]</span>
+</div>
+<div class="w-12 h-12 mb-4 rounded-DEFAULT bg-surface-container-high border-[1.5px] border-outline-variant flex items-center justify-center group-hover:border-tertiary transition-colors">
+<span class="material-symbols-outlined text-on-surface">calculate</span>
+</div>
+<h3 class="font-h2 text-h2 text-white mb-2">Cramer's Rule</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Compute the inverse of a matrix using determinants and adjugate matrices.</p>
+</div>
+<!-- Card 6 -->
+<div class="bg-surface-container-low border-[1px] border-white/10 rounded-lg p-6 hover:bg-surface-container transition-colors group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="font-math-lg text-math-lg text-primary">[D]</span>
+</div>
+<div class="w-12 h-12 mb-4 rounded-DEFAULT bg-surface-container-high border-[1.5px] border-outline-variant flex items-center justify-center group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-on-surface">lock_open</span>
+</div>
+<h3 class="font-h2 text-h2 text-white mb-2">Decryption</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Recover the original message by multiplying the ciphertext by the inverse key matrix.</p>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full py-12 bg-[#0D0D1A] border-t border-white/5 mt-20 relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 max-w-7xl mx-auto">
+<div class="font-bold text-white mb-4 md:mb-0 font-h2 text-h2 text-base">LinearCrypt</div>
+<nav class="flex gap-6 mb-4 md:mb-0">
+<a class="font-['Space_Grotesk'] text-xs text-slate-500 text-slate-600 hover:text-white transition-colors" href="#">Research Labs</a>
+<a class="font-['Space_Grotesk'] text-xs text-slate-500 text-slate-600 hover:text-white transition-colors" href="#">Gauss-Jordan Docs</a>
+<a class="font-['Space_Grotesk'] text-xs text-slate-500 text-slate-600 hover:text-white transition-colors" href="#">Matrix Theory</a>
+<a class="font-['Space_Grotesk'] text-xs text-slate-500 text-slate-600 hover:text-white transition-colors" href="#">Security Audit</a>
+</nav>
+<p class="font-['Space_Grotesk'] text-xs text-slate-500 text-slate-500">© 2024 LinearCrypt Mathematical Observatory. Built for Cryptographic Rigor.</p>
+</div>
+</footer>
+<!-- Mobile Bottom Navigation (Hidden on md+) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-[#0D0D1A]/95 backdrop-blur-2xl border-t border-white/5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+<div class="flex justify-around items-center px-6 py-3 w-full">
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg p-2" href="#">
+<span class="material-symbols-outlined mb-1">format_size</span>
+<span class="font-label text-[10px] uppercase tracking-widest hidden sm:block">Conversion</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg p-2" href="#">
+<span class="material-symbols-outlined mb-1">view_column</span>
+<span class="font-label text-[10px] uppercase tracking-widest hidden sm:block">Vectorization</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#FF7F50] bg-[#FF7F50]/10 rounded-lg px-4 py-2 ring-1 ring-[#FF7F50]/30 shadow-[0_0_15px_rgba(255,127,80,0.2)]" href="#">
+<span class="material-symbols-outlined mb-1">enhanced_encryption</span>
+<span class="font-label text-[10px] uppercase tracking-widest">Encryption</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg p-2" href="#">
+<span class="material-symbols-outlined mb-1">settings_backup_restore</span>
+<span class="font-label text-[10px] uppercase tracking-widest hidden sm:block">Inverse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity hover:bg-white/5 rounded-lg p-2" href="#">
+<span class="material-symbols-outlined mb-1">functions</span>
+<span class="font-label text-[10px] uppercase tracking-widest hidden sm:block">Cramer's</span>
+</a>
+</div>
+</nav>
+</body></html>

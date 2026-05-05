@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LinearCrypt - Message Conversion</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#7f9dd0",
+                        "surface-tint": "#a9c8fc",
+                        "outline-variant": "#43474f",
+                        "surface-container-lowest": "#0d0e11",
+                        "inverse-surface": "#e3e2e6",
+                        "primary": "#a9c8fc",
+                        "surface-dim": "#121316",
+                        "surface-variant": "#333538",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-high": "#292a2d",
+                        "secondary-fixed": "#ffdadb",
+                        "on-surface": "#e3e2e6",
+                        "surface-container-low": "#1a1c1f",
+                        "outline": "#8d919a",
+                        "on-error": "#690005",
+                        "tertiary-container": "#003946",
+                        "on-background": "#e3e2e6",
+                        "tertiary-fixed-dim": "#4cd6fb",
+                        "error": "#ffb4ab",
+                        "on-primary": "#09305c",
+                        "on-tertiary": "#003642",
+                        "primary-container": "#0f3460",
+                        "secondary": "#ffb2b7",
+                        "on-surface-variant": "#c3c6d0",
+                        "error-container": "#93000a",
+                        "tertiary": "#4cd6fb",
+                        "surface-container-highest": "#333538",
+                        "on-secondary-fixed": "#40000e",
+                        "surface-bright": "#38393d",
+                        "primary-fixed-dim": "#a9c8fc",
+                        "on-secondary-fixed-variant": "#91002b",
+                        "inverse-primary": "#405f8e",
+                        "surface-container": "#1e2023",
+                        "inverse-on-surface": "#2f3034",
+                        "on-primary-fixed-variant": "#274774",
+                        "on-secondary": "#67001c",
+                        "secondary-fixed-dim": "#ffb2b7",
+                        "on-tertiary-fixed": "#001f27",
+                        "on-tertiary-fixed-variant": "#004e5f",
+                        "secondary-container": "#9e0030",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed": "#b3ebff",
+                        "on-secondary-container": "#ffa7ae",
+                        "surface": "#121316",
+                        "on-primary-fixed": "#001b3c",
+                        "on-tertiary-container": "#00aacc",
+                        "background": "#121316"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "sm": "16px",
+                        "base": "4px",
+                        "lg": "40px",
+                        "xs": "8px",
+                        "xl": "64px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Space Grotesk"],
+                        "label": ["JetBrains Mono"],
+                        "math-sm": ["JetBrains Mono"],
+                        "math-lg": ["JetBrains Mono"],
+                        "h2": ["Space Grotesk"],
+                        "display": ["Space Grotesk"],
+                        "body-lg": ["Noto Sans"],
+                        "body-md": ["Noto Sans"]
+                    },
+                    "fontSize": {
+                        "h1": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "label": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "math-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "math-lg": ["18px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .bloom-active {
+            box-shadow: 0 0 12px 0 rgba(255, 178, 183, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-background font-body-md min-h-screen flex flex-col pb-32">
+<!-- TopAppBar -->
+<header class="hidden md:flex bg-[#1A1A2E]/80 backdrop-blur-xl docked full-width top-0 z-50 border-b border-white/10 flat no shadows flex justify-between items-center w-full px-8 py-4">
+<div class="flex items-center">
+<span class="text-2xl font-bold tracking-tighter text-white border-r border-white/10 pr-6 mr-6">LinearCrypt</span>
+<nav class="flex gap-6 font-['Space_Grotesk'] font-medium tracking-tight">
+<a class="text-slate-400 hover:text-white transition-colors hover:text-blue-400 transition-all duration-300" href="#">Dashboard</a>
+<a class="text-blue-400 border-b-2 border-blue-400 pb-1 hover:text-blue-400 transition-all duration-300" href="#">Modules</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-blue-400 transition-all duration-300" href="#">Theory</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-blue-400 transition-all duration-300" href="#">Documentation</a>
+</nav>
+</div>
+<button class="bg-primary-container text-on-primary px-6 py-2 rounded font-label text-label uppercase tracking-widest border border-primary/20 hover:bg-primary hover:text-on-primary transition-colors scale-95 transition-transform">
+            Start Calculation
+        </button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-gutter py-xl">
+<!-- Header -->
+<div class="mb-lg">
+<h1 class="font-h1 text-h1 text-on-surface mb-xs">Step 1: Message Conversion</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Translate the plaintext message into its numerical matrix equivalent.</p>
+</div>
+<!-- Formula Block -->
+<div class="bg-surface-container-low border-l-[2px] border-primary p-sm mb-lg rounded-r-[0.125rem] border border-y-white/5 border-r-white/5 flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[24px]">functions</span>
+<code class="font-math-lg text-math-lg text-surface-tint">Encoding: A=1, B=2, C=3 ... Z=26, _=0</code>
+</div>
+<!-- Conversion Cards Area -->
+<div class="bg-surface-container border border-outline-variant/30 rounded-lg p-lg mb-xl shadow-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-secondary/20 to-transparent"></div>
+<div class="flex flex-wrap justify-center gap-md items-center min-h-[300px]">
+<!-- H -->
+<div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/50 rounded p-sm w-[100px] hover:border-secondary/50 transition-colors">
+<span class="font-display text-display text-on-surface mb-xs">H</span>
+<span class="material-symbols-outlined text-outline-variant mb-xs">arrow_downward</span>
+<span class="font-math-lg text-math-lg text-tertiary">8</span>
+</div>
+<!-- E -->
+<div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/50 rounded p-sm w-[100px] hover:border-secondary/50 transition-colors">
+<span class="font-display text-display text-on-surface mb-xs">E</span>
+<span class="material-symbols-outlined text-outline-variant mb-xs">arrow_downward</span>
+<span class="font-math-lg text-math-lg text-tertiary">5</span>
+</div>
+<!-- L -->
+<div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/50 rounded p-sm w-[100px] hover:border-secondary/50 transition-colors">
+<span class="font-display text-display text-on-surface mb-xs">L</span>
+<span class="material-symbols-outlined text-outline-variant mb-xs">arrow_downward</span>
+<span class="font-math-lg text-math-lg text-tertiary">12</span>
+</div>
+<!-- L -->
+<div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/50 rounded p-sm w-[100px] hover:border-secondary/50 transition-colors">
+<span class="font-display text-display text-on-surface mb-xs">L</span>
+<span class="material-symbols-outlined text-outline-variant mb-xs">arrow_downward</span>
+<span class="font-math-lg text-math-lg text-tertiary">12</span>
+</div>
+<!-- O -->
+<div class="flex flex-col items-center bg-surface-container-low border border-outline-variant/50 rounded p-sm w-[100px] hover:border-secondary/50 transition-colors">
+<span class="font-display text-display text-on-surface mb-xs">O</span>
+<span class="material-symbols-outlined text-outline-variant mb-xs">arrow_downward</span>
+<span class="font-math-lg text-math-lg text-tertiary">15</span>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="flex justify-end mt-lg">
+<button class="flex items-center gap-xs bg-secondary/10 border border-secondary text-secondary px-8 py-4 rounded font-label text-label uppercase tracking-widest bloom-active hover:bg-secondary/20 transition-all">
+                Next Step
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-[#0D0D1A]/95 backdrop-blur-2xl fixed bottom-0 w-full z-50 border-t border-white/5 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] fixed bottom-0 left-0 w-full flex justify-around items-center px-6 py-3 max-w-7xl mx-auto left-0 right-0">
+<button class="flex flex-col items-center justify-center text-[#FF7F50] bg-[#FF7F50]/10 rounded-lg px-4 py-2 ring-1 ring-[#FF7F50]/30 shadow-[0_0_15px_rgba(255,127,80,0.2)] font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hover:bg-white/5 rounded-lg">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">format_size</span>
+            Conversion
+        </button>
+<button class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hover:bg-white/5 rounded-lg">
+<span class="material-symbols-outlined mb-1">view_column</span>
+            Vectorization
+        </button>
+<button class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hover:bg-white/5 rounded-lg">
+<span class="material-symbols-outlined mb-1">enhanced_encryption</span>
+            Encryption
+        </button>
+<button class="flex flex-col items-center justify-center text-slate-500 opacity-60 hover:opacity-100 transition-opacity font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest hover:bg-white/5 rounded-lg hidden sm:flex">
+<span class="material-symbols-outlined mb-1">settings_backup_restore</span>
+            Inverse
+        </button>
+</nav>
+</body></html>
