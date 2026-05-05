@@ -200,7 +200,15 @@ LC.PdfExport.generate = async function() {
     console.error('PDF Export Error:', err);
     LC.App.showAlert('Error generating PDF: ' + err.message);
   } finally {
-    document.body.removeChild(overlay);
+    try { document.body.removeChild(overlay); } catch(e){}
+    LC.PdfExport._isGenerating = false;
+    
+    // Unconditionally restore hidden elements
+    document.querySelectorAll('nav, .mobile-menu, .viz-footer, .step-timeline-container').forEach(el => {
+      el.style.display = '';
+    });
+    const mainApp = document.getElementById('app');
+    if (mainApp) mainApp.classList.remove('pdf-mode');
   }
 };
 
@@ -211,10 +219,10 @@ LC.PdfExport._createOverlay = function() {
   const el = document.createElement('div');
   el.id = 'pdf-export-overlay';
   el.innerHTML = `
-    <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px;position:relative;z-index:9999999;transform:translateZ(0);">
       <div class="pdf-spinner"></div>
-      <p style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:#f0f0f0">Generating PDF...</p>
-      <p id="pdf-overlay-status" style="font-family:'Noto Sans',sans-serif;font-size:14px;color:#888">Preparing content...</p>
+      <p style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:#f0f0f0;text-shadow:0 1px 3px rgba(0,0,0,0.8);">Generating PDF...</p>
+      <p id="pdf-overlay-status" style="font-family:'Noto Sans',sans-serif;font-size:14px;color:#888;text-shadow:0 1px 2px rgba(0,0,0,0.8);">Preparing content...</p>
     </div>`;
   return el;
 };
