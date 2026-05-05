@@ -608,8 +608,8 @@ LC.EndToEnd._formatRowVector = function(row) {
 
 // Render an augmented matrix (3×6 with divider)
 LC.EndToEnd._renderAugmentedMatrix = function(matrix) {
-  let html = '<div style="overflow-x:auto;display:flex;justify-content:center;margin-top:var(--sp-3)">';
-  html += '<div style="display:grid;grid-template-columns:repeat(3,52px) 16px repeat(3,52px);gap:2px;align-items:center">';
+  let html = '<div style="overflow-x:auto;margin-top:var(--sp-3);width:100%">';
+  html += '<div style="display:grid;grid-template-columns:repeat(3,52px) 16px repeat(3,52px);gap:2px;align-items:center;margin:0 auto;width:max-content">';
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 6; j++) {
       if (j === 3) {
