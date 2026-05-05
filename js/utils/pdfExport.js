@@ -78,7 +78,7 @@ LC.PdfExport.generate = async function() {
     if (uniqueMath.length > 0) {
       LC.PdfExport._forceUpdateOverlay(overlay, 'Rendering equations (' + uniqueMath.length + ')...');
 
-      const chunkSize = 25;
+      const chunkSize = 10;
       for (let c = 0; c < uniqueMath.length; c += chunkSize) {
         const chunk = uniqueMath.slice(c, c + chunkSize);
         if (uniqueMath.length > chunkSize) {
@@ -86,7 +86,7 @@ LC.PdfExport.generate = async function() {
         }
 
         const batchContainer = document.createElement('div');
-        batchContainer.style.cssText = 'position:absolute; top:0; left:0; z-index:-1; background:transparent; color:#000000; padding:20px; width:1200px; display:block; pointer-events:none;';
+        batchContainer.style.cssText = 'position:absolute; top:0; left:0; z-index:-1; background:transparent; color:#000000; padding:20px; max-width:800px; display:inline-block; pointer-events:none;';
         document.body.appendChild(batchContainer);
 
         chunk.forEach((item, i) => {
