@@ -432,7 +432,7 @@ LC.EndToEnd._renderEncBlock = function(blockIdx) {
 
   // ── Matrix Equation: C_n = K · M = [expanded] = [raw results] — all inline
   html += '<div style="overflow-x:auto;padding:var(--sp-4) 0">';
-  html += '<div class="matrix-equation mb-4" style="flex-wrap:nowrap">';
+  html += '<div class="matrix-equation mb-4" style="margin:0 auto;width:max-content;flex-wrap:nowrap">';
 
   // C_n =
   html += `<span class="text-math" style="font-size:17px;color:var(--text-secondary);white-space:nowrap">C<sub>${blockNum}</sub> =</span>`;
@@ -450,7 +450,7 @@ LC.EndToEnd._renderEncBlock = function(blockIdx) {
   html += '<span class="operator">=</span>';
 
   // Expanded dot products column (plain flex, NOT .matrix-display which forces 48px)
-  html += '<div style="display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
+  html += '<div style="flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
   block.steps.forEach(step => {
     const expr = step.products.map(p => `${p.kVal}(${p.mVal})`).join(' + ');
     html += `<div style="height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:14px;white-space:nowrap;color:var(--text-secondary)">${expr}</div>`;
@@ -459,7 +459,7 @@ LC.EndToEnd._renderEncBlock = function(blockIdx) {
 
   // = raw sums column (also plain flex to avoid 48px constraint)
   html += '<span class="operator">=</span>';
-  html += '<div style="display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
+  html += '<div style="flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
   block.steps.forEach(step => {
     html += `<div style="height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:18px;color:var(--text-primary);min-width:36px">${step.sum}</div>`;
   });
@@ -642,7 +642,8 @@ LC.EndToEnd._renderGJVerification = function(K, Kinv) {
   html += '<p class="text-h3" style="color:var(--yellow);margin-bottom:var(--sp-4);text-align:center">Verification: K · K⁻¹ ≡ I₃ (mod 27)</p>';
 
   // K · K⁻¹ = [product] ≡ I₃ (mod 27)
-  html += '<div class="matrix-equation" style="justify-content:center;flex-wrap:nowrap">';
+  html += '<div style="overflow-x:auto;padding:var(--sp-2) 0;width:100%;">';
+  html += '<div class="matrix-equation" style="margin:0 auto;width:max-content;flex-wrap:nowrap">';
   html += '<span class="text-math" style="font-size:15px;color:var(--text-secondary)">K · K⁻¹ =</span>';
   html += LC.EndToEnd._renderMatrixHTML(K, 3, 3);
   html += '<span class="operator">·</span>';
@@ -652,6 +653,7 @@ LC.EndToEnd._renderGJVerification = function(K, Kinv) {
   html += '<span class="operator">≡</span>';
   html += LC.EndToEnd._renderMatrixHTML(productMod, 3, 3, true);
   html += '<span class="text-math" style="font-size:14px;color:var(--text-secondary)">(mod 27) ✓</span>';
+  html += '</div>';
   html += '</div>';
 
   // Show individual reductions
@@ -866,7 +868,7 @@ LC.EndToEnd._renderMatInvBlock = function(blockIdx) {
 
   // Inline matrix equation: M_n = K⁻¹ · C = [expansion] = [sums]
   html += '<div style="overflow-x:auto;padding:var(--sp-4) 0">';
-  html += '<div class="matrix-equation mb-4" style="flex-wrap:nowrap">';
+  html += '<div class="matrix-equation mb-4" style="margin:0 auto;width:max-content;flex-wrap:nowrap">';
 
   html += `<span class="text-math" style="font-size:17px;color:var(--text-secondary);white-space:nowrap">M<sub>${blockNum}</sub> =</span>`;
   html += LC.EndToEnd._renderMatrixHTML(Kinv, 3, 3);
@@ -875,7 +877,7 @@ LC.EndToEnd._renderMatInvBlock = function(blockIdx) {
   html += '<span class="operator">=</span>';
 
   // Expanded dot products column
-  html += '<div style="display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
+  html += '<div style="flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
   steps.forEach(step => {
     const expr = step.products.map(p => `${p.kVal}(${p.cVal})`).join(' + ');
     html += `<div style="height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:14px;white-space:nowrap;color:var(--text-secondary)">${expr}</div>`;
@@ -884,7 +886,7 @@ LC.EndToEnd._renderMatInvBlock = function(blockIdx) {
 
   // Raw sums column
   html += '<span class="operator">=</span>';
-  html += '<div style="display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
+  html += '<div style="flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:var(--sp-2) var(--sp-3);border-left:2px solid var(--outline-variant);border-right:2px solid var(--outline-variant)">';
   steps.forEach(step => {
     html += `<div style="height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:18px;color:var(--text-primary);min-width:36px">${step.sum}</div>`;
   });
