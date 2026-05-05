@@ -2381,3 +2381,27 @@ footer {
 .lc-modal-btn { background: #f5f7ff; color: #08090f; border: none; border-radius: 8px; padding: 8px 32px; font-size: 14px; font-family: var(--font-body); font-weight: 500; cursor: pointer; transition: opacity 150ms ease, transform 150ms ease; }
 .lc-modal-btn:hover { opacity: 0.9; cursor: pointer; }
 .lc-modal-btn:active { transform: scale(0.97); }
+
+#pdf-export-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 15, 40, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+}
+.pdf-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(199, 210, 254, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: pdf-spin 1s linear infinite;
+}
+@keyframes pdf-spin {
+  to { transform: rotate(360deg); }
+}
