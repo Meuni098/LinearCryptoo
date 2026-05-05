@@ -106,11 +106,13 @@ LC.PdfExport.generate = async function() {
 
         await new Promise(r => setTimeout(r, 150));
 
-        const pixelRatio = 2.5;
-        const batchImgData = await Promise.race([
-          htmlToImage.toPng(batchContainer, { pixelRatio, skipFonts: true, fontEmbedCSS: '' }),
-          new Promise((_, reject) => setTimeout(() => reject(new Error('htmlToImage timeout')), 10000))
-        ]);
+        const isMobile = window.innerWidth <= 768;
+        const pixelRatio = isMobile ? 1.5 : 2.5;
+        
+        const overlayStatus = document.getElementById('pdf-overlay-status');
+        if (overlayStatus) overlayStatus.textContent = 'Rendering equations (this may take up to a minute on mobile devices)...';
+
+        const batchImgData = await htmlToImage.toPng(batchContainer, { pixelRatio, skipFonts: true, fontEmbedCSS: '' });
 
         const img = new Image();
         img.src = batchImgData;
@@ -272,10 +274,8 @@ LC.PdfExport._captureMath = async function(latex, displayMode) {
 
   await new Promise(r => setTimeout(r, 100));
 
-  const imgData = await Promise.race([
-    htmlToImage.toPng(container, { pixelRatio: 2.5, skipFonts: true, fontEmbedCSS: '' }),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('htmlToImage timeout')), 10000))
-  ]);
+  const isMobile = window.innerWidth <= 768;
+  const imgData = await htmlToImage.toPng(container, { pixelRatio: isMobile ? 1.5 : 2.5, skipFonts: true, fontEmbedCSS: '' });
 
   // Get EXACT pixel dimensions from the generated image to completely prevent overlapping
   const img = new Image();
