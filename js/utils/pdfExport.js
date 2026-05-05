@@ -96,7 +96,7 @@ LC.PdfExport.generate = async function() {
           if (item.displayMode) wrap.style.fontSize = '15px';
 
           try {
-            katex.render(item.latex, wrap, { displayMode: !!item.displayMode, throwOnError: false });
+            katex.render(item.latex, wrap, { displayMode: !!item.displayMode, output: 'mathml', throwOnError: false });
           } catch(e) {
             wrap.textContent = item.latex;
           }
@@ -276,7 +276,7 @@ LC.PdfExport._captureMath = async function(latex, displayMode) {
   document.body.appendChild(container);
 
   try {
-    katex.render(latex, container, { displayMode: !!displayMode, throwOnError: false });
+    katex.render(latex, container, { displayMode: !!displayMode, output: 'mathml', throwOnError: false });
   } catch(e) {
     container.textContent = latex;
   }
