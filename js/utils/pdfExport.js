@@ -280,7 +280,7 @@ LC.PdfExport._captureMath = async function(latex, displayMode) {
   // Get EXACT pixel dimensions from the generated image to completely prevent overlapping
   const img = new Image();
   img.src = imgData;
-  await new Promise(r => img.onload = r);
+  await new Promise(r => { img.onload = r; img.onerror = () => r(); });
 
   const srcW = img.width;
   const srcH = img.height;
