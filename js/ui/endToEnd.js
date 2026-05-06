@@ -72,15 +72,32 @@ LC.EndToEnd.render = function(container) {
               Next Step
               <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>
             </button>
-            <button class="btn btn-export-pdf" id="btn-export-pdf" title="Export all steps as PDF" style="display:inline-flex; align-items:center; gap:6px;">
-              <span class="material-symbols-outlined" style="font-size:18px">picture_as_pdf</span>
-              Export PDF
-            </button>
+              <button class="btn btn-export-pdf" id="btn-export-pdf" title="Generate LaTeX Source" style="display:inline-flex; align-items:center; gap:6px;">
+                <span class="material-symbols-outlined" style="font-size:18px">code</span>
+                Generate Document Source
+              </button>
+            </div>
           </div>
         </div>
+
+        <!-- LATEX EDITOR PANEL -->
+        <div class="card-panel" style="margin-top:var(--sp-6); display:none" id="latex-panel">
+          <div class="viz-header">
+            <h3 class="text-h2">LaTeX Document Source</h3>
+            <div class="flex gap-2">
+              <button class="btn btn-primary" id="btn-compile-pdf" style="display:inline-flex; align-items:center; gap:6px;">
+                <span class="material-symbols-outlined" style="font-size:18px">picture_as_pdf</span>
+                Compile & Download PDF
+              </button>
+            </div>
+          </div>
+          <p class="text-caption mt-2 mb-4" style="color:var(--text-secondary)">
+            You can review or edit the raw generated LaTeX document below before compiling it into a polished PDF report. This works just like an embedded Overleaf editor.
+          </p>
+          <textarea id="latex-editor" style="width: 100%; height: 400px; font-family: monospace; background: var(--bg-dark); color: #e4e4e4; border: 1px solid var(--border-color); border-radius: 8px; padding: 16px;"></textarea>
+        </div>
       </div>
-    </div>
-  `;
+    `;
 
   LC.EndToEnd._initMatrixInputs();
   LC.EndToEnd._initTimeline();
@@ -209,7 +226,17 @@ LC.EndToEnd._bindEvents = function() {
   };
 
   document.getElementById('btn-export-pdf').onclick = function() {
-    LC.PdfExport.generate();
+    const texStr = LC.PdfExport.generateCode();
+    const latexPanel = document.getElementById('latex-panel');
+    latexPanel.style.display = 'block';
+    document.getElementById('latex-editor').value = texStr;
+    // Smooth scroll to editor
+    latexPanel.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  };
+
+  document.getElementById('btn-compile-pdf').onclick = function() {
+    const manualTex = document.getElementById('latex-editor').value;
+    LC.PdfExport.compileAndDownload(manualTex);
   };
 };
 
@@ -287,6 +314,12 @@ LC.EndToEnd._goToStep = function(step) {
   const exportBtn = document.getElementById('btn-export-pdf');
   if (exportBtn) {
     exportBtn.style.display = step === 5 ? 'inline-flex' : 'none';
+  }
+  
+  // Automatically hide the LaTeX panel if navigating away from step 5
+  if (step !== 5) {
+    const latexPanel = document.getElementById('latex-panel');
+    if (latexPanel) latexPanel.style.display = 'none';
   }
 
   const titles = [

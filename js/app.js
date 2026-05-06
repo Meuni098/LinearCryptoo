@@ -72,7 +72,20 @@ LC.App.navigateToStep = function(step) {
 // Router
 LC.App.route = function() {
   const hash = window.location.hash || '#/';
-  const path = hash.replace('#', '') || '/';
+  
+  // If the hash is an internal anchor on the landing page (e.g. #features)
+  // and the landing page is already rendered, just let the browser scroll.
+  if (!hash.startsWith('#/') && hash !== '') {
+    if (document.querySelector('.hero')) {
+      return; 
+    }
+  }
+
+  let path = '/';
+  if (hash.startsWith('#/')) {
+    path = hash.replace('#', '') || '/';
+  }
+
   const container = document.getElementById('app');
 
   // Update nav links
@@ -101,17 +114,25 @@ LC.App.route = function() {
   switch (path) {
     case '/end-to-end':
       LC.EndToEnd.render(container);
+      window.scrollTo(0, 0);
       break;
     case '/modules':
       LC.Modules.render(container);
+      window.scrollTo(0, 0);
       break;
     default:
       LC.Landing.render(container);
+      // For the first load of landing page, if there's a hash, scroll to it, otherwise scroll to top.
+      if (!hash.startsWith('#/') && hash !== '') {
+        setTimeout(() => {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView();
+        }, 100);
+      } else {
+        window.scrollTo(0, 0);
+      }
       break;
   }
-
-  // Scroll to top
-  window.scrollTo(0, 0);
 };
 
 // Init
